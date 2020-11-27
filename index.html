@@ -25,17 +25,23 @@
         <button class="btn btn-success" onclick="getEndpoint()">GET</button>
       </div>
 
+        <!-- <nav aria-label="Page navigation example">
+            <ul class="pagination pagination-circle pg-blue justify-content-center" id="pagination">
+
+            </ul>
+        </nav> -->
+ 
+
+        <table class="table table-striped table-responsive-xl justify-content-center" id="myTable">
+
+        </table>
+
         <nav aria-label="Page navigation example">
             <ul class="pagination pagination-circle pg-blue justify-content-center" id="pagination">
 
             </ul>
         </nav>
  
-
-        <table class="table table-striped table-responsive-xl" id="myTable">
-
-        </table>
-
 </div>
     
 
@@ -54,9 +60,9 @@
             // console.log(requestURL);
             return response.json();
          }).then(function(obj){
-            //  if(!obj.data){
-            //     console.log('No Result Found');
-            //  }
+            if(page > obj.last_page){
+            return true;
+            }
             let myTable = document.getElementById('myTable');
             let HTML = 
                ` 
@@ -98,7 +104,7 @@
         var navHTML = '';
 
         navHTML +=`
-          <li class="page-item "><a class="page-link" onClick=getEndpoint(`+ obj.first_page +`)>First</a></li>
+          <li class="page-item "><a class="page-link" onClick=getEndpoint(1)>First</a></li>
           <li class="page-item">
             <a class="page-link" aria-label="Previous" onClick=getEndpoint(` + (obj.current_page-5) + `)>
               <span aria-hidden="true">&laquo;</span>
@@ -106,17 +112,19 @@
             </a>
           </li>`;
 
-          for (let index = 0; index < 5; index++) {
+        for (let index = 0; index < 5; index++) {
    
             var active = obj.current_page == (obj.current_page+index) ? ' active' : '';
+            var disable = (obj.current_page+index) > obj.last_page ? ' disabled' : '';
+
             if(obj.current_page <= obj.last_page ){
               navHTML +=`
-              <li class="page-item `+ active + `">
+              <li class="page-item `+ active + disable + `">
               <a class="page-link" onClick=getEndpoint(` + (obj.current_page+index) + `)>` + 
               (obj.current_page+index) +
               `</a></li>`;
-             }
             }
+        }
         navHTML += `
           <li class="page-item">
             <a class="page-link" aria-label="Next" onClick=getEndpoint(` + (obj.current_page+5) + `)>
