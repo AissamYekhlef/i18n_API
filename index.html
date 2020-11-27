@@ -126,13 +126,13 @@
             }
         }
         navHTML += `
-          <li class="page-item">
+          <li class="page-item`+ disable + `">
             <a class="page-link" aria-label="Next" onClick=getEndpoint(` + (obj.current_page+5) + `)>
               <span aria-hidden="true">&raquo;</span>
               <span class="sr-only">Next</span>
             </a>
           </li>
-          <li class="page-item"><a class="page-link" onClick=getEndpoint(` + obj.last_page + `)>Last</a></li>
+          <li class="page-item`+ disable + `"><a class="page-link" onClick=getEndpoint(` + obj.last_page + `)>Last</a></li>
         `;
         
           return navHTML;
