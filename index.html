@@ -5,25 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" type="text/css">
-    <title>Document</title>
+    <title>Browse Terms</title>
 </head>
 <body>
 <div class="container">
    <h3 class="center"> Hello in the <span style="color:red">i18n</span> application for Translate terms to Arabic
     </h3>
     <h2> Fetch API  </h2>
-
+    <a href="/search.html">Search</a>
     <!-- <label>Search Term: </label>
     <input type="text" value="AP" placeholder="Search Term" id="endpoint"> -->
     
-        <div class="input-group input-group-lg" id="width-50">
+    
+        <!-- <div class="input-group input-group-lg" id="width-50">
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-sm">Search Term:</span>
         </div>
         <input type="text" class="form-control width-sm" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"
         alue="AP" placeholder="Search English or Arabic" id="endpoint">
         <button class="btn btn-success" onclick="getEndpoint()">GET</button>
-      </div>
+      </div> -->
 
         <!-- <nav aria-label="Page navigation example">
             <ul class="pagination pagination-circle pg-blue justify-content-center" id="pagination">
@@ -77,13 +78,30 @@
                 <tbody>`;
             
             obj.data.forEach(element => {
-            HTML +=`<tr>
+              HTML += `
+                    <tr>
                     <th scope="row">` + element.id + `</th>
                     <td>` + element.term + `</td>
-                    <td>` + element.wEN + `</td>
-                    <td>` + element.wAR + `</td>
-                </tr>
-                `;
+                    <td> <ul class="list-unstyled">` ;
+                if(typeof element.wEN =="string"){
+                    HTML += `<li>` + element.wEN + `</li>`;
+                }else{
+                    element.wEN.forEach(w_en => {
+                    HTML += `<li>` + w_en + `</li>`;
+                    });
+                }  
+                
+              HTML +=  `</ul> </td>
+              <td> <ul class="list-unstyled">`;
+              if(typeof element.wAR =="string"){
+                    HTML += `<li>` + element.wAR + `</li>`;
+                }else{
+                    element.wAR.forEach(w_ar => {
+                    HTML += `<li>` + w_ar + `</li>`;
+                    });
+                }  
+                HTML +=  `</ul> </td>`;
+              HTML += `</tr>`;
 
             });
              HTML += `</tbody>`;
@@ -95,7 +113,7 @@
 
         }).catch(function(error){
             console.log('Something went wrong with retrieving the people!');
-            // console.log(error);
+            console.log(error);
         });
     }
 
